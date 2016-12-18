@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 
- #include "pipe_networking.h"
+#include "pipe_networking.h"
 
 void process( char * s );
 
@@ -17,11 +17,11 @@ int main() {
   to_client = server_handshake( &from_client );
   printf("Server Status: %d\n", to_client);
   
-  /*
-  read( from_client, buffer, sizeof(buffer) );
-  process( buffer );
-  write( to_client, buffer, sizeof(buffer));
-  */
+  while (1){
+    read( from_client, buffer, sizeof(buffer));
+    process( buffer );
+    write( to_client, buffer, sizeof(buffer));
+  }
 
   return 0;
 }
