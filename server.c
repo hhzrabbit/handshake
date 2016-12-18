@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 
-// #include "pipe_networking.h"
+ #include "pipe_networking.h"
 
 void process( char * s );
 
