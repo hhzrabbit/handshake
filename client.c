@@ -22,18 +22,18 @@ int main() {
 
   from_server = client_handshake( &to_server );
   // printf("To Server: %d\tFrom Server: %d\n", to_server, from_server); // Debug
-
-  char buffer[MESSAGE_BUFFER_SIZE];
-  while (1) {
-    printf("[CLIENT] Enter message: ");
-    fgets( buffer, sizeof(buffer), stdin );
-    if (buffer[strlen(buffer)-1] == '\n')
-      buffer[strlen(buffer)-1] = 0;
-    
-    write( to_server, buffer, sizeof(buffer) );
-    read( from_server, buffer, sizeof(buffer) );
-    printf( "[CLIENT] Received: %s\n", buffer );
+  if (from_server != -1){
+    char buffer[MESSAGE_BUFFER_SIZE];
+    while (1) {
+      printf("[CLIENT] Enter message: ");
+      fgets( buffer, sizeof(buffer), stdin );
+      if (buffer[strlen(buffer)-1] == '\n')
+	buffer[strlen(buffer)-1] = 0;
+      
+      write( to_server, buffer, sizeof(buffer) );
+      read( from_server, buffer, sizeof(buffer) );
+      printf( "[CLIENT] Received: %s\n", buffer );
+    }
   }
-
   return 0;
 }

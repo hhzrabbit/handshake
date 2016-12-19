@@ -68,46 +68,27 @@ int client_handshake( int * a ) {
   printf("[CLIENT] Connecting to Server (weegee).\n");
   WKP = open("weegee", O_WRONLY); //blocks here
 
+  
   // Connected to WKP, Send Details of PP
-  printf("[CLIENT] Connected to Server.\n");
-  write(WKP, PP_name, sizeof(PP_name));
-  printf("[CLIENT] wrote to weegee: %s\n", PP_name);
+  if (WKP != -1) {
+    printf("[CLIENT] Connected to Server.\n");
+    write(WKP, PP_name, sizeof(PP_name));
+    printf("[CLIENT] wrote to weegee: %s\n", PP_name);
   
-  // Waiting For Server to Establish Connection with PP
-  PP = open(PP_name, O_RDONLY);
-
-  // Connection Established, Closing PP
-  read(PP, serverMsg, 11);
-  printf("[CLIENT] Received: %s\n", serverMsg);
-  closePipeByName(PP_name);
-  printf("[CLIENT] Closed PP.\n");
-  
-  *a = WKP; // to_server
+    // Waiting For Server to Establish Connection with PP
+    PP = open(PP_name, O_RDONLY);
+    
+    // Connection Established, Closing PP
+    read(PP, serverMsg, 11);
+    printf("[CLIENT] Received: %s\n", serverMsg);
+    closePipeByName(PP_name);
+    printf("[CLIENT] Closed PP.\n");
+    
+    *a = WKP; // to_server
+  }
+  else {
+    printf("[CLIENT] Error: Server not found (weegee)\n");
+    return -1;
+  }
   return PP; // from_server
 }
-
-
-//  int fds[2];
-//  
-//  pipe( fds );
-//
-//  
-//  int f = fork();
-//  if ( f == 0 ) {
-//    close(fds[WRITE]);
-//
-//    printf("[child] listening\n");
-//    char s[20];
-//    //int x;    
-//    read( fds[READ], s, sizeof(s) );
-//    printf("[child] got: %s\n", s);
-//  }
-//  else {
-//    close(fds[READ]);
-//    
-//    printf("[parent] sleeping\n");
-//    sleep(5);    
-//    write( fds[WRITE], "hello there", 12 );    
-//  }
-//  return 0;
-
